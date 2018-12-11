@@ -82,7 +82,7 @@ class vault::config {
       }
       'systemd': {
         ::systemd::unit_file{'vault.service':
-          source => template('vault/vault.systemd.erb'),
+          source => template('vault/vault.systemd-V2.erb'),
         }
         service {'vault':
           ensure => 'running',
