@@ -81,39 +81,28 @@ class vault::config {
         }
       }
       'systemd': {
-        ::systemd::unit_file{'vault.service':
-          source => template('vault/vault.systemd-V2.erb'),
+      file { '/etc/systemd/system/vault.service':
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => template('vault/vault.systemd-V2.erb'),
         }
+      }
         service {'vault':
           ensure => 'running',
           enable => true,
         }
       }
       /(redhat|sysv|init)/: {
-         file { '/etc/init.d/vault':
-           ensure  => file,
-           owner   => 'root',
-           group   => 'root',
-           mode    => '0755',
-           content => template('vault/vault.initd.erb'),
-         }
-       }
-      # BEGIN - commented in case of init
-      # 'systemd': {
-      #   ::systemd::unit_file{'vault.service':
-      #     content => template('vault/vault.systemd.erb'),
-      #   }
-      # }
-      # /(redhat|sysv|init)/: {
-      #   file { '/etc/init.d/vault':
-      #     ensure  => file,
-      #     owner   => 'root',
-      #     group   => 'root',
-      #     mode    => '0755',
-      #     content => template('vault/vault.initd.erb'),
-      #   }
-      # }
-      # END - commented in case of init
+      file { '/etc/init.d/vault':
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => template('vault/vault.initd.erb'),
+        }
+      }
       default: {
         fail("vault::service_provider '${::vault::service_provider}' is not valid")
       }
