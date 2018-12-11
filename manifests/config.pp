@@ -86,6 +86,7 @@ class vault::config {
         }
         service {'vault':
           ensure => 'running',
+          enable => true,
         }
       }
       # BEGIN - commented in case of init
