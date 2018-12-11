@@ -89,6 +89,15 @@ class vault::config {
           enable => true,
         }
       }
+      /(redhat|sysv|init)/: {
+         file { '/etc/init.d/vault':
+           ensure  => file,
+           owner   => 'root',
+           group   => 'root',
+           mode    => '0755',
+           content => template('vault/vault.initd.erb'),
+         }
+       }
       # BEGIN - commented in case of init
       # 'systemd': {
       #   ::systemd::unit_file{'vault.service':
