@@ -88,13 +88,15 @@ class vault::config {
         mode    => '0755',
         content => template('vault/vault.systemd-V2.erb'),
         }
-      }
-      exec { 'daemon-reload':
-        command 'systemctl daemon-reload',
-      }  
       service { 'vault':
         ensure  => 'running',
         enable  => true,
+        require => Exec['daemon-reload'],
+        }
+      exec { 'daemon-reload':
+        user    => 'root',
+        command => '/bin/systemctl daemon-reload',
+        }
       }
       /(redhat|sysv|init)/: {
       file { '/etc/init.d/vault':
