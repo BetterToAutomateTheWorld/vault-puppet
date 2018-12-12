@@ -90,8 +90,12 @@ class vault::config {
         }
       }
         service {'vault':
-          ensure => 'running',
-          enable => true,
+          ensure  => 'running',
+          enable  => true,
+          require => [
+            exec ['daemon-reload'],
+              command 'systemctl daemon-reload',
+          ]
         }
       }
       /(redhat|sysv|init)/: {
