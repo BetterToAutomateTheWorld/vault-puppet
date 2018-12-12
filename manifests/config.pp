@@ -88,11 +88,12 @@ class vault::config {
         mode    => '0755',
         content => template('vault/vault.systemd-V2.erb'),
         }
-      service { 'vault':
-        ensure  => 'running',
-        enable  => true,
-        require => Exec['daemon-reload'],
-        }
+      # ALREADY DONE IN 'manifests/service.pp', do not uncomment !
+      # service { 'vault':
+      #   ensure  => 'running',
+      #   enable  => true,
+      #   require => Exec['daemon-reload'],
+      #   }
       exec { 'daemon-reload':
         user    => 'root',
         command => '/bin/systemctl daemon-reload',
