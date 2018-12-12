@@ -89,7 +89,7 @@ class vault::config {
         content => template('vault/vault.systemd-V2.erb'),
         }
       }
-      service {'vault':
+      service { 'vault':
         ensure  => 'running',
         enable  => true,
         require => [
